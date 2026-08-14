@@ -10,17 +10,18 @@ async function loadSite(){
 }
 
 function castId(c,i){return String(c?.id || `cast-${i}`)}
+function castProfileUrl(c,i){return `/cast.html?id=${encodeURIComponent(castId(c,i))}`}
 function castCard(c,i,{today=false,showNumber=true}={}){
   const placeholder=showNumber?(c.rank||String(i+1).padStart(2,'0')):'A';
   return `<article class="cast-card reveal">
-    <div class="cast-photo">${c.image?`<img src="${esc(c.image)}" alt="${esc(c.name)}">`:`<span class="cast-placeholder">${esc(placeholder)}</span>`}</div>
+    <div class="cast-photo"><a class="cast-photo-link" href="${castProfileUrl(c,i)}" aria-label="${esc(c.name)}のプロフィールを見る">${c.image?`<img src="${esc(c.image)}" alt="${esc(c.name)}">`:`<span class="cast-placeholder">${esc(placeholder)}</span>`}</a></div>
     <div class="cast-meta">${showNumber?`<span class="rank">CAST ${esc(c.rank||String(i+1).padStart(2,'0'))}</span>`:''}<h3>${esc(c.name)}</h3><p>${esc(c.roman||'')}</p>${today?`<small>${esc(c.shift||'')}</small><span class="today-badge">TODAY</span>`:''}</div>
   </article>`;
 }
-function rankingCard(c,place){
+function rankingCard(c,place,castIndex){
   if(!c)return `<article class="ranking-card ${place===1?'first':''}"><div class="ranking-empty"><div><strong>${place}</strong>未設定</div></div></article>`;
   return `<article class="ranking-card ${place===1?'first':''} reveal">
-    <div class="ranking-photo">${c.image?`<img src="${esc(c.image)}" alt="${esc(c.name)}">`:`<span class="cast-placeholder">${esc(c.rank||String(place).padStart(2,'0'))}</span>`}<span class="ranking-number">${place}</span><span class="ranking-label">TOP ${place}</span></div>
+    <div class="ranking-photo"><a class="ranking-photo-link" href="${castProfileUrl(c,castIndex)}" aria-label="${esc(c.name)}のプロフィールを見る">${c.image?`<img src="${esc(c.image)}" alt="${esc(c.name)}">`:'<span class="cast-placeholder">A</span>'}</a><span class="ranking-number">${place}</span><span class="ranking-label">TOP ${place}</span></div>
     <div class="ranking-meta"><h3>${esc(c.name)}</h3><p>${esc(c.roman||'')}</p></div>
   </article>`;
 }
@@ -42,12 +43,12 @@ function render(){
     ? [0,1,2].map(i=>SITE.ranking[i]?String(SITE.ranking[i]):'')
     : cast.slice(0,3).map((c,i)=>castId(c,i));
   const ranking=[0,1,2].map(i=>rankingIds[i]?byId.get(rankingIds[i])||null:null);
-  if(q('#rankingGrid'))q('#rankingGrid').innerHTML=ranking.map((c,i)=>rankingCard(c,i+1)).join('');
+  if(q('#rankingGrid'))q('#rankingGrid').innerHTML=ranking.map((c,i)=>rankingCard(c,i+1,c?cast.indexOf(c):i)).join('');
 
   let todayIds=Array.isArray(SITE.todayCast)?SITE.todayCast.map(String):null;
   if(todayIds===null)todayIds=cast.map((c,i)=>castId(c,i));
   const todayCast=todayIds.map(id=>byId.get(id)).filter(Boolean);
-  if(q('#todayCastGrid'))q('#todayCastGrid').innerHTML=todayCast.length?todayCast.map((c,i)=>castCard(c,i,{today:true,showNumber:false})).join(''):'<p class="empty-cast">本日の出勤キャストはまだ設定されていません。</p>';
+  if(q('#todayCastGrid'))q('#todayCastGrid').innerHTML=todayCast.length?todayCast.map(c=>castCard(c,cast.indexOf(c),{today:true,showNumber:false})).join(''):'<p class="empty-cast">本日の出勤キャストはまだ設定されていません。</p>';
   if(q('#allCastGrid'))q('#allCastGrid').innerHTML=cast.length?cast.map((c,i)=>castCard(c,i,{showNumber:false})).join(''):'<p class="empty-cast">在籍キャストはまだ登録されていません。</p>';
 
   if(q('#castSelect'))q('#castSelect').innerHTML='<option value="">指定なし</option>'+cast.map(c=>`<option>${esc(c.name)}</option>`).join('');
