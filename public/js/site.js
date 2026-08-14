@@ -37,9 +37,10 @@ function render(){
   const cast=Array.isArray(SITE.cast)?SITE.cast:[];
   const byId=new Map(cast.map((c,i)=>[castId(c,i),c]));
 
-  let rankingIds=Array.isArray(SITE.ranking)?SITE.ranking.filter(Boolean).map(String):[];
-  if(!rankingIds.length)rankingIds=cast.slice(0,3).map((c,i)=>castId(c,i));
-  const ranking=[0,1,2].map(i=>byId.get(rankingIds[i])||null);
+  const rankingIds=Array.isArray(SITE.ranking)
+    ? [0,1,2].map(i=>SITE.ranking[i]?String(SITE.ranking[i]):'')
+    : cast.slice(0,3).map((c,i)=>castId(c,i));
+  const ranking=[0,1,2].map(i=>rankingIds[i]?byId.get(rankingIds[i])||null:null);
   if(q('#rankingGrid'))q('#rankingGrid').innerHTML=ranking.map((c,i)=>rankingCard(c,i+1)).join('');
 
   let todayIds=Array.isArray(SITE.todayCast)?SITE.todayCast.map(String):null;
