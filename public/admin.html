@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Artemis Admin</title>
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+<body>
+  <section class="login-wrap" id="loginView">
+    <form class="login-card" id="loginForm">
+      <div class="admin-crest">A</div>
+      <p class="eyebrow">THE ARTEMIS</p>
+      <h1>ADMIN LOGIN</h1>
+      <label>ユーザー名<input name="user" value="admin" autocomplete="username" required></label>
+      <label>パスワード<input name="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">ログイン</button>
+      <p class="message" id="loginMessage"></p>
+      <a href="/">サイトを見る →</a>
+    </form>
+  </section>
+
+  <div class="admin-app hidden" id="adminView">
+    <aside class="sidebar">
+      <div class="side-brand"><span class="admin-crest small">A</span><div><strong>The Artemis</strong><small>ADMIN PANEL</small></div></div>
+      <nav>
+        <button class="active" data-tab="dashboard">ダッシュボード</button>
+        <button data-tab="content">基本情報</button>
+        <button data-tab="cast">キャスト</button>
+        <button data-tab="system">料金</button>
+        <button data-tab="news">ニュース</button>
+        <button data-tab="reservations">予約</button>
+        <button data-tab="recruits">求人応募</button>
+      </nav>
+      <div class="side-bottom"><a href="/" target="_blank">公開サイトを開く ↗</a><button id="logoutButton">ログアウト</button></div>
+    </aside>
+
+    <main class="main">
+      <header class="admin-header"><div><p class="eyebrow">THE ARTEMIS</p><h1 id="pageTitle">ダッシュボード</h1></div><div class="header-actions"><span class="save-state" id="saveState"></span><button class="primary" id="saveAllButton">サイトを保存</button></div></header>
+
+      <section class="tab active" data-panel="dashboard">
+        <div class="stats"><article><span>CAST</span><strong id="statCast">0</strong><small>登録キャスト</small></article><article><span>RESERVATION</span><strong id="statRes">0</strong><small>未対応予約</small></article><article><span>RECRUIT</span><strong id="statRecruit">0</strong><small>未対応応募</small></article><article><span>NEWS</span><strong id="statNews">0</strong><small>ニュース件数</small></article></div>
+        <div class="panel"><h2>使い方</h2><p>左メニューから内容を編集し、右上の「サイトを保存」を押すと公開ページに反映されます。キャスト画像・メイン画像は画像アップロード後すぐ保存候補に入ります。</p><p>予約と求人応募はこの管理画面に蓄積され、ステータスを変更できます。</p></div>
+      </section>
+
+      <section class="tab" data-panel="content">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">BRAND</p><h2>基本情報</h2></div></div><div class="form-grid" id="brandFields"></div></div>
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">EVENT</p><h2>イベント</h2></div></div><div class="form-grid" id="eventFields"></div></div>
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">ACCESS</p><h2>店舗情報</h2></div></div><div class="form-grid" id="accessFields"></div></div>
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">RECRUIT / SNS</p><h2>求人・SNS</h2></div></div><div class="form-grid" id="recruitFields"></div></div>
+      </section>
+
+      <section class="tab" data-panel="cast">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">CAST</p><h2>キャスト管理</h2></div><button class="secondary" id="addCast">＋ キャスト追加</button></div><div class="cards-list" id="castEditor"></div></div>
+      </section>
+
+      <section class="tab" data-panel="system">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">SYSTEM</p><h2>料金管理</h2></div><button class="secondary" id="addPrice">＋ 料金項目追加</button></div><div class="rows-list" id="priceEditor"></div></div>
+      </section>
+
+      <section class="tab" data-panel="news">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">NEWS</p><h2>ニュース管理</h2></div><button class="secondary" id="addNews">＋ ニュース追加</button></div><div class="rows-list" id="newsEditor"></div></div>
+      </section>
+
+      <section class="tab" data-panel="reservations">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">RESERVATION</p><h2>予約一覧</h2></div></div><div class="request-list" id="reservationList"></div></div>
+      </section>
+
+      <section class="tab" data-panel="recruits">
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">RECRUIT</p><h2>求人応募一覧</h2></div></div><div class="request-list" id="recruitList"></div></div>
+      </section>
+    </main>
+  </div>
+
+  <input type="file" id="imagePicker" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+  <div class="toast" id="toast"></div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
