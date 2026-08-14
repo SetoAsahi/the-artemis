@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=4" />
+  <link rel="stylesheet" href="/styles.css?v=5" />
+  <link rel="stylesheet" href="/cast-sections.css?v=1" />
   <style>
     .reserve-top,[data-open="reservation"],.reservation-card,#reservationModal{display:none!important}
     .split-section{grid-template-columns:1fr!important}
@@ -19,7 +20,16 @@
   <div class="grain" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="#top"><span class="brand-mark">A</span><span><strong id="brandName">The Artemis</strong><small id="brandSubtitle">LUXURY CABARET</small></span></a>
-    <nav class="nav"><a href="#cast">CAST<span>キャスト</span></a><a href="#system">SYSTEM<span>料金</span></a><a href="#event">EVENT<span>イベント</span></a><a href="#news">NEWS<span>ニュース</span></a><a href="#access">ACCESS<span>アクセス</span></a><a href="#recruit">RECRUIT<span>求人</span></a></nav>
+    <nav class="nav">
+      <a href="#ranking">RANKING<span>ランキング</span></a>
+      <a href="#today">TODAY<span>本日出勤</span></a>
+      <a href="#cast">CAST<span>在籍キャスト</span></a>
+      <a href="#system">SYSTEM<span>料金</span></a>
+      <a href="#event">EVENT<span>イベント</span></a>
+      <a href="#news">NEWS<span>ニュース</span></a>
+      <a href="#access">ACCESS<span>アクセス</span></a>
+      <a href="#recruit">RECRUIT<span>求人</span></a>
+    </nav>
     <button class="reserve-top" data-open="reservation">RESERVATION</button>
   </header>
 
@@ -35,9 +45,22 @@
       </div>
     </section>
 
-    <section class="section shell" id="cast">
-      <div class="section-heading reveal"><div><p class="eyebrow">TODAY'S CAST</p><h2>本日の出勤キャスト</h2></div><p class="section-lead">The Artemisを彩るキャストをご紹介します。</p></div>
-      <div class="cast-grid" id="castGrid"></div>
+    <section class="ranking-section shell" id="ranking">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">CAST RANKING</p><h2>RANKING TOP 3</h2></div>
+        <p class="section-lead">The Artemisを代表するTOPキャスト。</p>
+      </div>
+      <div class="ranking-grid" id="rankingGrid"></div>
+    </section>
+
+    <section class="section shell" id="today">
+      <div class="section-heading reveal"><div><p class="eyebrow">TODAY'S CAST</p><h2>本日の出勤キャスト</h2></div><p class="section-lead">本日お迎えするキャストをご紹介します。</p></div>
+      <div class="cast-grid" id="todayCastGrid"></div>
+    </section>
+
+    <section class="section shell roster-section" id="cast">
+      <div class="section-heading reveal"><div><p class="eyebrow">ALL CAST</p><h2>在籍キャスト</h2></div><p class="section-lead">The Artemisに在籍するキャスト一覧です。</p></div>
+      <div class="roster-grid" id="allCastGrid"></div>
     </section>
 
     <section class="split-section shell" id="event">
@@ -72,6 +95,6 @@
     </form>
   </dialog>
 
-  <script src="/js/site.js?v=4"></script>
+  <script src="/js/site.js?v=5"></script>
 </body>
 </html>
