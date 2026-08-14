@@ -47,7 +47,7 @@ function render(){
   let todayIds=Array.isArray(SITE.todayCast)?SITE.todayCast.map(String):null;
   if(todayIds===null)todayIds=cast.map((c,i)=>castId(c,i));
   const todayCast=todayIds.map(id=>byId.get(id)).filter(Boolean);
-  if(q('#todayCastGrid'))q('#todayCastGrid').innerHTML=todayCast.length?todayCast.map((c,i)=>castCard(c,i,{today:true})).join(''):'<p class="empty-cast">本日の出勤キャストはまだ設定されていません。</p>';
+  if(q('#todayCastGrid'))q('#todayCastGrid').innerHTML=todayCast.length?todayCast.map((c,i)=>castCard(c,i,{today:true,showNumber:false})).join(''):'<p class="empty-cast">本日の出勤キャストはまだ設定されていません。</p>';
   if(q('#allCastGrid'))q('#allCastGrid').innerHTML=cast.length?cast.map((c,i)=>castCard(c,i,{showNumber:false})).join(''):'<p class="empty-cast">在籍キャストはまだ登録されていません。</p>';
 
   if(q('#castSelect'))q('#castSelect').innerHTML='<option value="">指定なし</option>'+cast.map(c=>`<option>${esc(c.name)}</option>`).join('');
