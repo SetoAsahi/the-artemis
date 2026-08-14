@@ -3,6 +3,7 @@ services:
     name: the-artemis
     runtime: node
     plan: free
+    autoDeployTrigger: commit
     buildCommand: npm install --omit=dev
     startCommand: npm start
     healthCheckPath: /api/site
