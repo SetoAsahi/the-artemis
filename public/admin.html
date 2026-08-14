@@ -67,11 +67,11 @@
         <div class="panel"><div class="panel-head"><div><p class="eyebrow">RECRUIT / SNS</p><h2>求人・SNS</h2></div></div><div class="form-grid" id="recruitFields"></div></div>
       </section>
 
-      <section class="tab" data-panel="cast"><div class="panel"><div class="panel-head"><div><p class="eyebrow">ALL CAST</p><h2>在籍キャスト管理</h2></div><button class="secondary" id="addCast">＋ キャスト追加</button></div><p class="panel-note">ここに登録したキャストが「在籍キャスト」に表示されます。出勤時間は本日出勤時に表示されます。</p><div class="cards-list" id="castEditor"></div></div></section>
+      <section class="tab" data-panel="cast"><div class="panel"><div class="panel-head"><div><p class="eyebrow">ALL CAST</p><h2>在籍キャスト管理</h2></div><button class="secondary" id="addCast">＋ キャスト追加</button></div><p class="panel-note">ここに登録したキャストが「在籍キャスト」に表示されます。勤務時間は「ランキング・出勤」から変更できます。</p><div class="cards-list" id="castEditor"></div></div></section>
 
       <section class="tab" data-panel="castops">
         <div class="panel"><div class="panel-head"><div><p class="eyebrow">CAST RANKING</p><h2>RANKING TOP3</h2></div></div><p class="panel-note">1位〜3位を在籍キャストから選択してください。</p><div class="ranking-controls" id="rankingEditor"></div></div>
-        <div class="panel"><div class="panel-head"><div><p class="eyebrow">TODAY'S CAST</p><h2>本日の出勤設定</h2></div></div><p class="panel-note">今日出勤するキャストにチェックを入れてください。</p><div class="today-editor" id="todayEditor"></div></div>
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">TODAY'S CAST</p><h2>本日の出勤設定</h2></div></div><p class="panel-note">今日出勤するキャストにチェックを入れ、勤務時間を各キャストごとに変更できます。</p><div class="today-editor" id="todayEditor"></div></div>
       </section>
 
       <section class="tab" data-panel="system"><div class="panel"><div class="panel-head"><div><p class="eyebrow">SYSTEM</p><h2>料金管理</h2></div><button class="secondary" id="addPrice">＋ 料金項目追加</button></div><div class="rows-list" id="priceEditor"></div></div></section>
@@ -83,6 +83,6 @@
 
   <input type="file" id="imagePicker" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
   <div class="toast" id="toast"></div>
-  <script src="/js/admin.js?v=3"></script>
+  <script src="/js/admin.js?v=4"></script>
 </body>
 </html>
