@@ -17,6 +17,8 @@
     .reserve-top,[data-open="reservation"],.reservation-card,#reservationModal{display:none!important}
     .split-section{grid-template-columns:1fr!important}
     #cast .rank,#cast .cast-placeholder,#today .rank,#today .cast-placeholder{display:none!important}
+    .hero .crest{width:210px!important;height:165px!important;margin:0 auto 12px!important}
+    @media(max-width:700px){.hero .crest{width:140px!important;height:110px!important;margin-bottom:8px!important}}
   </style>
 </head>
 <body>
@@ -41,7 +43,7 @@
       <img id="heroImage" class="hero-bg" src="/assets/hero-lounge.svg" alt="The Artemis 店内イメージ" />
       <div class="hero-shade"></div>
       <div class="hero-content reveal">
-        <div class="crest">A</div><p class="eyebrow" id="heroSubtitle">LUXURY CABARET</p>
+        <div class="crest">A</div>
         <h1 id="heroName">The Artemis</h1><p class="hero-copy" id="heroTagline">夜を、忘れられない夜へ。</p>
         <p class="hero-intro" id="heroIntro"></p>
         <button class="gold-button" data-open="reservation">ご予約 <span>→</span></button>
