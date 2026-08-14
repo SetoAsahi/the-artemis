@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: the-artemis
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/site
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_FUNCTION_URL
+        value: https://usqsewecifxrxixprqxa.supabase.co/functions/v1/artemis-api
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ARTEMIS_ADMIN_SECRET
+        sync: false
