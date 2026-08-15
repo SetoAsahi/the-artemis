@@ -1,10 +1,10 @@
+const API='https://usqsewecifxrxixprqxa.supabase.co/functions/v1/artemis-api?action=site';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
 const castId=(c,i)=>String(c?.id||`cast-${i}`);
-
 async function loadProfile(){
   const id=new URLSearchParams(location.search).get('id');
-  const res=await fetch('/api/site',{cache:'no-store'});
+  const res=await fetch(API,{cache:'no-store'});
   if(!res.ok)throw new Error('load failed');
   const site=await res.json();
   const cast=Array.isArray(site.cast)?site.cast:[];
@@ -18,15 +18,9 @@ async function loadProfile(){
   $('#profileRoman').textContent=c.roman||'';
   $('#profileBio').textContent=c.bio?.trim()||`${brand}に在籍するキャストです。`;
   $('#profileImageWrap').innerHTML=c.image?`<img src="${esc(c.image)}" alt="${esc(c.name||'CAST')}">`:'<div class="profile-placeholder">A</div>';
-
   const todaySet=new Set((Array.isArray(site.todayCast)?site.todayCast:[]).map(String));
-  if(todaySet.has(castId(c,index))){
-    $('#profileToday').hidden=false;
-    $('#profileTodayBadge').hidden=false;
-    $('#profileShift').textContent=c.shift||'出勤時間未設定';
-  }
+  if(todaySet.has(castId(c,index))){$('#profileToday').hidden=false;$('#profileTodayBadge').hidden=false;$('#profileShift').textContent=c.shift||'出勤時間未設定';}
   $('#profileContent').hidden=false;
 }
-
 $('#year').textContent=new Date().getFullYear();
 loadProfile().catch(()=>{$('#profileError').hidden=false;});
