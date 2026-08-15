@@ -1,9 +1,11 @@
 let SITE = null;
+const API_BASE = 'https://usqsewecifxrxixprqxa.supabase.co/functions/v1/artemis-api';
 const q = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
+const apiUrl = action => `${API_BASE}?action=${encodeURIComponent(action)}`;
 
 async function loadSite(){
-  const res = await fetch('/api/site', { cache: 'no-store' });
+  const res = await fetch(apiUrl('site'), { cache: 'no-store' });
   if(!res.ok) throw new Error('site load failed');
   SITE = await res.json();
   render();
@@ -94,13 +96,13 @@ function observe(){
 document.addEventListener('click',e=>{const open=e.target.closest('[data-open]');if(open){const modal=q(`#${open.dataset.open}Modal`);if(modal?.showModal)modal.showModal()}if(e.target.matches('[data-close]'))e.target.closest('dialog')?.close();});
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
 
-async function submitForm(form, url, success){
+async function submitForm(form, action, success){
   const msg=form.querySelector('.form-message');if(msg){msg.classList.remove('error');msg.textContent='送信中…'}
   const data=Object.fromEntries(new FormData(form).entries());data.vip=form.elements.vip?.checked||false;
-  try{const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const out=await res.json();if(!res.ok)throw new Error(out.error||'送信できませんでした');if(msg)msg.textContent=success;form.reset();setTimeout(()=>form.closest('dialog')?.close(),1400);}catch(err){if(msg){msg.classList.add('error');msg.textContent=err.message}}
+  try{const res=await fetch(apiUrl(action),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const out=await res.json();if(!res.ok)throw new Error(out.error||'送信できませんでした');if(msg)msg.textContent=success;form.reset();setTimeout(()=>form.closest('dialog')?.close(),1400);}catch(err){if(msg){msg.classList.add('error');msg.textContent=err.message}}
 }
-q('#reservationForm')?.addEventListener('submit',e=>{e.preventDefault();submitForm(e.currentTarget,'/api/reservations','ご予約を受け付けました。お店からの連絡をお待ちください。')});
-q('#recruitForm')?.addEventListener('submit',e=>{e.preventDefault();submitForm(e.currentTarget,'/api/recruit','ご応募を受け付けました。ありがとうございます。')});
+q('#reservationForm')?.addEventListener('submit',e=>{e.preventDefault();submitForm(e.currentTarget,'reservation','ご予約を受け付けました。お店からの連絡をお待ちください。')});
+q('#recruitForm')?.addEventListener('submit',e=>{e.preventDefault();submitForm(e.currentTarget,'recruit','ご応募を受け付けました。ありがとうございます。')});
 if(q('#year'))q('#year').textContent=new Date().getFullYear();
 setReservationDateMin();
 loadSite().catch(()=>{if(q('#heroIntro'))q('#heroIntro').textContent='サイト情報を読み込めませんでした。';observe();});
