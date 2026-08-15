@@ -6,3 +6,7 @@
 @media(max-width:1050px){.ranking-grid{grid-template-columns:repeat(3,1fr)}.roster-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:700px){.nav{gap:12px}.ranking-section{padding:70px 0 48px}.ranking-grid{grid-template-columns:1fr;gap:14px}.ranking-card.first{transform:none}.ranking-photo{aspect-ratio:5/4}.ranking-number{font-size:60px}.roster-grid{grid-template-columns:1fr 1fr}.roster-section{padding-top:36px}}
 @media(max-width:460px){.roster-grid{grid-template-columns:1fr}.ranking-photo{aspect-ratio:4/5}}
+
+/* Missing cast photos use the official Artemis symbol. */
+.cast-placeholder{font-size:0!important;background:radial-gradient(circle at 50% 42%,rgba(205,167,95,.11),transparent 40%),url('/assets/the-artemis-symbol.png') center/38% auto no-repeat!important;opacity:.95}.cast-placeholder:after{content:none!important}.roster-section .cast-placeholder:after{content:none!important}.ranking-card.first .ranking-photo img{object-position:center 38%}.ranking-card.first .ranking-photo-link img{object-position:center 38%}
+@media(max-width:700px){.cast-placeholder{background-size:30% auto!important}.ranking-card.first .ranking-photo img,.ranking-card.first .ranking-photo-link img{object-position:center 40%}}
