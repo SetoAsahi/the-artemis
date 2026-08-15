@@ -1,9 +1,33 @@
 let DATA=null, site=null, imageHandler=null;
+const API_BASE='https://usqsewecifxrxixprqxa.supabase.co/functions/v1/artemis-api';
+const TOKEN_KEY='artemis_admin_session_v2';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
 const uid=p=>`${p}-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
-async function api(url,opt={}){const r=await fetch(url,{headers:{'Content-Type':'application/json',...(opt.headers||{})},...opt});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||'エラーが発生しました');return j}
+function mapAction(url,opt={}){
+  if(url==='/api/admin/me')return{action:'me',admin:true};
+  if(url==='/api/admin/login')return{action:'login',login:true};
+  if(url==='/api/admin/data')return{action:'admin-data',admin:true};
+  if(url==='/api/admin/site')return{action:'save-site',admin:true};
+  if(url==='/api/admin/upload')return{action:'upload',admin:true};
+  let m=url.match(/^\/api\/admin\/reservations\/([^/]+)$/);if(m)return{action:(opt.method||'GET').toUpperCase()==='DELETE'?'reservation-delete':'reservation-status',admin:true,id:decodeURIComponent(m[1])};
+  m=url.match(/^\/api\/admin\/recruits\/([^/]+)$/);if(m)return{action:(opt.method||'GET').toUpperCase()==='DELETE'?'recruit-delete':'recruit-status',admin:true,id:decodeURIComponent(m[1])};
+  return null;
+}
+async function api(url,opt={}){
+  if(url==='/api/admin/logout'){localStorage.removeItem(TOKEN_KEY);return{ok:true}}
+  const map=mapAction(url,opt);if(!map)throw new Error('API endpoint not found');
+  const headers={'Content-Type':'application/json',...(opt.headers||{})};
+  const token=localStorage.getItem(TOKEN_KEY);if(map.admin&&token)headers.Authorization=`Bearer ${token}`;
+  let body=opt.body;
+  if(map.id){let parsed={};try{parsed=body?JSON.parse(body):{}}catch{}parsed.id=map.id;body=JSON.stringify(parsed)}
+  const r=await fetch(`${API_BASE}?action=${encodeURIComponent(map.action)}`,{...opt,headers,body});
+  const j=await r.json().catch(()=>({}));
+  if(map.login&&r.ok&&j.token)localStorage.setItem(TOKEN_KEY,j.token);
+  if(map.admin&&r.status===401)localStorage.removeItem(TOKEN_KEY);
+  if(!r.ok)throw new Error(j.error||'エラーが発生しました');return j;
+}
 
 async function authCheck(){const me=await api('/api/admin/me');if(me.authenticated)showAdmin();}
 $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const fd=new FormData(e.currentTarget);try{await api('/api/admin/login',{method:'POST',body:JSON.stringify(Object.fromEntries(fd))});$('#loginMessage').textContent='';showAdmin()}catch(err){$('#loginMessage').textContent=err.message}});
