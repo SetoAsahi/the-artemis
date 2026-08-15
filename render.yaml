@@ -1,20 +1,24 @@
 services:
   - type: web
-    name: the-artemis
-    runtime: node
-    plan: free
+    name: the-artemis-static
+    runtime: static
     autoDeployTrigger: commit
-    buildCommand: npm install --omit=dev
-    startCommand: npm start
-    healthCheckPath: /api/site
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: SUPABASE_FUNCTION_URL
-        value: https://usqsewecifxrxixprqxa.supabase.co/functions/v1/artemis-api
-      - key: ADMIN_USER
-        value: admin
-      - key: ADMIN_PASSWORD
-        sync: false
-      - key: ARTEMIS_ADMIN_SECRET
-        sync: false
+    buildCommand: echo "The Artemis static site ready"
+    staticPublishPath: ./public
+    routes:
+      - type: rewrite
+        source: /admin
+        destination: /admin.html
+      - type: rewrite
+        source: /cast
+        destination: /cast.html
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
